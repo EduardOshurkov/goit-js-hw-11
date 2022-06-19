@@ -1,5 +1,7 @@
 import * as axios from "axios";
-import SearchApiService from "./on-search";
+import SearchApiService from "./js/on-search-form";
+import infoContainer from "./js/add-info-container";
+
 
 const refs = {
     searchForm: document.querySelector('.search-form'),
@@ -19,13 +21,34 @@ function onSearch(e) {
 
     searchApiService.query = e.currentTarget.elements.searchQuery.value
 
-    searchApiService.fetchArticles();
+    if (searchApiService.query === '') {
+        return alert("Error")
+    }
+
+    searchApiService.resetPage();
+    searchApiService.fetchArticles().then(appendArticlesMarkup)
+
+    onLoadMore() 
+    clearArticlesContainer();
 };
 
-function onLoadMore() {
- searchApiService.fetchArticles();
+
+function appendArticlesMarkup(hits) {
+    refs.imageContainer.insertAdjacentHTML('beforeend', infoContainer(hits));
 }
 
+
+function onLoadMore() {
+    searchApiService.fetchArticles().then(appendArticlesMarkup)
+        // .then(setTimeout(() => {
+        //     refs.loadMore.classList.remove('is-hidden');
+        // }, 2000));
+}
+
+
+function clearArticlesContainer() {
+    refs.imageContainer.innerHTML = '';
+}
 
 
 

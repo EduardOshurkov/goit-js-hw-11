@@ -4,18 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Page title</title>
+    <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="./sass/index.scss" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Roboto:ital,wght@1,100;1,700&display=swap"
+  rel="stylesheet">
     <script type="module" src="./index.js"></script>
   </head>
   <body>
+    <div class="header">
     <form class="search-form" id="search-form">
       <input type="text" name="searchQuery" autocomplete="off" placeholder="Search images..." />
-      <button type="submit">Search</button>
+      <button type="submit" class="search-btn">Search</button>
     </form>
-    <button type="button" class="load-more">Load more</button>
+    </div>
+    
     <div class="gallery">
       <!-- Карточки изображений -->
     </div>
+    <button type="button" class="load-more is-hidden">
+      <span class="spinner-border spinner-border-sm spinner is-heddin" role="status" aria-hidden="true"></span>
+      Load more</button>
     <include src="./partials/example.html"></include>
     <script src="index.js" type="module"></script>
   </body>

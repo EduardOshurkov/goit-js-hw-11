@@ -6,7 +6,6 @@ export default class SearchApiService {
      }
 
     fetchArticles() {
-        console.log(this);
     const options = new URLSearchParams ({
     key: '28129229-bb4cd1c73e2b9860b59b7f6a7',
     q: this.searchQuery,
@@ -17,14 +16,17 @@ export default class SearchApiService {
     per_page: '40'
 })
 
-
-fetch(`${BASE_URL}?${options}`)
-    .then(r => r.json())
-    .then(data => {
+return fetch(`${BASE_URL}?${options}`)
+    .then(response => response.json())
+    .then(({hits}) => {
         this.page += 1;
+        return hits;
     });
-    };
+    }
 
+    resetPage() {
+        this.page = 1;
+    }
 
     get query() {
         return this.searchQuery
@@ -34,9 +36,3 @@ fetch(`${BASE_URL}?${options}`)
         this.searchQuery = newQuery;
     }
 };
-
-
- // e.preventDefault();
-
-    // const searchQuery = e.currentTarget.elements.searchQuery.value
-    // const BASE_URL = "https://pixabay.com/api/";

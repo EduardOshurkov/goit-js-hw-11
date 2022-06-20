@@ -1,19 +1,27 @@
 import * as axios from "axios";
 import SearchApiService from "./js/on-search-form";
 import infoContainer from "./js/add-info-container";
+import Notiflix from 'notiflix';
+import LoadMoreBtn from "./load-more-btn";
 
 
 const refs = {
     searchForm: document.querySelector('.search-form'),
     imageContainer: document.querySelector('.gallery'),
-    loadMore:document.querySelector('.load-more'),
 };
 
 refs.searchForm.addEventListener('submit', onSearch);
-refs.loadMore.addEventListener('click', onLoadMore);
 
+const loadMoreBtn = new LoadMoreBtn({
+    selector: '[data-action="load-more"]',
+    hidden: true,
+});
+
+    
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 const searchApiService = new SearchApiService();
+
 
 
 function onSearch(e) {
@@ -22,35 +30,45 @@ function onSearch(e) {
     searchApiService.query = e.currentTarget.elements.searchQuery.value
 
     if (searchApiService.query === '') {
-        return alert("Error")
+        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+        return;
     }
+  
+
+    setTimeout
+    loadMoreBtn.show();
+    loadMoreBtn.disable();
 
     searchApiService.resetPage();
-    searchApiService.fetchArticles().then(appendArticlesMarkup)
-
-    onLoadMore() 
-    clearArticlesContainer();
+    searchApiService.fetchArticles().then(hits => {
+        clearArticlesContainer();
+        appendArticlesMarkup(hits)
+        loadMoreBtn.enable();
+    });
 };
-
 
 function appendArticlesMarkup(hits) {
     refs.imageContainer.insertAdjacentHTML('beforeend', infoContainer(hits));
 }
 
-
 function onLoadMore() {
-    searchApiService.fetchArticles().then(appendArticlesMarkup)
-        // .then(setTimeout(() => {
-        //     refs.loadMore.classList.remove('is-hidden');
-        // }, 2000));
+    searchApiService.fetchArticles().then(appendArticlesMarkup)    
 }
-
 
 function clearArticlesContainer() {
     refs.imageContainer.innerHTML = '';
 }
 
 
-
-
+// function fetchImage() {
+//     searchApiService.fetchArticles().then(result => {
+//         const {
+//             config: {
+//                 URLSearchParams: {page, per_page},
+//             },
+//             data: {hits, totalHits},
+//         } = result
+//         console.log(data);
+//     })
+// }
 

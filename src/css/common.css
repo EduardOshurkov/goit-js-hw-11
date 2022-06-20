@@ -75,6 +75,10 @@ input {
     display: none;
 }
 
+.load-more > .spinner.is-hidden {
+    display: none;
+}
+
 
 .gallery {
     display: flex;

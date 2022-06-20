@@ -23,11 +23,12 @@ export default class SearchApiService {
 
     const url = `${BASE_URL}`;
 
-       return await axios.get(url, {options})
-          .then(response => {
+       return await fetch(url, {options})
+         .then(({hits}) => {
+          
       this.page += 1;
 
-      return response;
+      return hits;
     });
   }
 

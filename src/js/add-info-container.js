@@ -1,5 +1,5 @@
-export default function infoContainer(hits) {
-    const markup = hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, dowloads }) => {
+export default function infoContainer(data) {
+    const markup = data.hits.map(({ webformatURL, largeImageURL, tags, likes, views, comments, dowloads }) => {
         return `<div class="photo-card">
         <a href="${largeImageURL}">
   <img class="start-img" src="${webformatURL}" alt="${tags}" loading="lazy" width=640 />
@@ -23,4 +23,3 @@ export default function infoContainer(hits) {
 };
 
 
-{/* <span class="result"></span> */}

@@ -34,9 +34,10 @@ function onSearch(e) {
         return;
     }
   
-
-    setTimeout
+    setTimeout(() => {
     loadMoreBtn.show();
+    }, 2000)
+    
     loadMoreBtn.disable();
 
     searchApiService.resetPage();
@@ -60,15 +61,5 @@ function clearArticlesContainer() {
 }
 
 
-// function fetchImage() {
-//     searchApiService.fetchArticles().then(result => {
-//         const {
-//             config: {
-//                 URLSearchParams: {page, per_page},
-//             },
-//             data: {hits, totalHits},
-//         } = result
-//         console.log(data);
-//     })
-// }
+
 

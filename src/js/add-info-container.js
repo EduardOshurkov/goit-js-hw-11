@@ -19,7 +19,8 @@ export default function infoContainer(data) {
   </div>
 </div>`
     }).join("");
-    return markup;
+  return markup;  
 };
+
 
 

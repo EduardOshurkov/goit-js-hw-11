@@ -18,15 +18,15 @@ export default class SearchApiService {
     orientation: 'horizontal',
     safesearch: 'true',
     page: this.page,
-    per_page: '40'
+    per_page: '40',
 })
-
+        
 const url = `${BASE_URL}?${options}`
 
     return await axios.get(url).then(response => {
-      this.page += 1;
-
-      return response.data;
+        this.page += 1;
+    
+    return response.data;
     });
     }
 

@@ -4,7 +4,9 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import SearchApiService from "./js/on-search-form";
 import infoContainer from "./js/add-info-container";
 import Notiflix from 'notiflix';
-import LoadMoreBtn from "./load-more-btn";
+import LoadMoreBtn from "./js/load-more-btn";
+
+
 
 
 const refs = {
@@ -25,6 +27,7 @@ const lightBox = new SimpleLightbox('.gallery div a', {
   captionDelay: 250,
   captionsData: 'alt',
 });
+
 const searchApiService = new SearchApiService();
 
 
@@ -38,6 +41,7 @@ function onSearch(e) {
         return;
     }
 
+
     searchApiService.resetPage();
     searchApiService.fetchArticles().then(hits => {
         getMessage(hits)
@@ -48,10 +52,18 @@ function onSearch(e) {
 
 function appendArticlesMarkup(hits) {
     refs.imageContainer.insertAdjacentHTML('beforeend', infoContainer(hits));
+
+    console.log(searchApiService.page);
+
     lightBox.refresh();
-    setTimeout(() => {
+    
+        if (hits.totalHits < (searchApiService.page - 1) * 40) {
+            loadMoreBtn.disable();
+            loadMoreBtn.hide();
+            Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+            return;
+        }
     loadMoreBtn.show(); 
-    },2000)
 }
 
 function onLoadMore() {
@@ -65,10 +77,10 @@ function clearArticlesContainer() {
 
 function getMessage() {
     try {
-         searchApiService.fetchArticles().then(hits => {
-        console.log(hits);
+        searchApiService.fetchArticles().then(hits => {
         const total = hits.total;
         const totalHits = hits.totalHits
+
         if (total === 0) {
             Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
             loadMoreBtn.hide();
@@ -77,12 +89,7 @@ function getMessage() {
             appendArticlesMarkup(hits) 
         }
         if (searchApiService.page = 1) {
-            Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-        }
-        console.log(data.length);
-        if (totalHits.length<40) {
-            loadMoreBtn.hide();
-            Notiflix.Notify.warning(`We're sorry, but you've reached the end of search results.`);
+            Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`)
         }
     })
     } catch (error) {

@@ -29,16 +29,16 @@ export default class SearchApiService {
 
 const url = `${BASE_URL}?${options}`
     return await axios.get(url).then(response => {
-        this.page += 1;
-
+        this.incrementPage();
+        
     return response.data;
     });
     }
 
-
-    lastPage() {
-        this.page += 1;
+    incrementPage() {
+    this.page += 1;
     }
+
     resetPage() {
         this.page = 1;
     }

@@ -37,8 +37,7 @@ function onSearch(e) {
     if (searchApiService.query === "") {
      return Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     }
-
-    loadMoreBtn.show(); 
+    
     searchApiService.resetPage();
     clearArticlesContainer();
     fetchArticles();
@@ -70,9 +69,10 @@ function onLoadMore() {
 }
 
 function appendArticlesMarkup(hits) {
-    refs.imageContainer.insertAdjacentHTML('beforeend', infoContainer(hits));
-
-    lightBox.refresh();
+    try {
+        refs.imageContainer.insertAdjacentHTML('beforeend', infoContainer(hits));
+        loadMoreBtn.show(); 
+        lightBox.refresh();
 
         if (hits.totalHits < (searchApiService.page - 1) * 40) {
             loadMoreBtn.disable();
@@ -80,6 +80,11 @@ function appendArticlesMarkup(hits) {
             Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
             return;
         }
+         
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 function clearArticlesContainer() {
